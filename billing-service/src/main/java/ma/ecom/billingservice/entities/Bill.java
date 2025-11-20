@@ -10,12 +10,11 @@ import java.util.List;
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Bill {
-    @Id @GeneratedValue
-    private Long billingId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Date billingDate;
     private Long customerId;
     @OneToMany(mappedBy = "bill")
     private List<ProductItem> products;
-    @Transient
-    private Customer customer;
+    @Transient private Customer customer;
 }
