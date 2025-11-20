@@ -7,6 +7,7 @@ import ma.ecom.billingservice.repositories.IProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
+@EnableFeignClients
 public class BillingServiceApplication {
 
     public static void main(String[] args) {
@@ -26,7 +28,7 @@ public class BillingServiceApplication {
                                                IProductRepository iProductRepository) {
         return args -> {
             List<Long> customerIds = List.of(1L, 2L, 3L);
-            List<Long> productIds = List.of(1L, 2L, 3L);
+            List<Long> productIds = List.of(1L, 2L);
             customerIds.forEach(clientId->{
                 Bill bill = new Bill();
                 bill.setBillingDate(new Date());
