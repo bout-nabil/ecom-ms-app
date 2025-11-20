@@ -1,7 +1,18 @@
 package ma.ecom.billingservice;
 
+import ma.ecom.billingservice.entities.Bill;
+import ma.ecom.billingservice.entities.ProductItem;
+import ma.ecom.billingservice.repositories.IBillRepository;
+import ma.ecom.billingservice.repositories.IProductRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 public class BillingServiceApplication {
@@ -10,4 +21,26 @@ public class BillingServiceApplication {
         SpringApplication.run(BillingServiceApplication.class, args);
     }
 
+    @Bean
+    public CommandLineRunner commandLineRunner(IBillRepository iBillRepository,
+                                               IProductRepository iProductRepository) {
+        return args -> {
+            List<Long> customerIds = List.of(1L, 2L, 3L);
+            List<Long> productIds = List.of(1L, 2L, 3L);
+            customerIds.forEach(clientId->{
+                Bill bill = new Bill();
+                bill.setBillingDate(new Date());
+                bill.setCustomerId(clientId);
+                iBillRepository.save(bill);
+                productIds.forEach(productId->{
+                    ProductItem productItem = new ProductItem();
+                    productItem.setPrice(1000*Math.random()*600);
+                    productItem.setQuantity(1 + new Random().nextInt(20));
+                    productItem.setProductId(productId);
+                    productItem.setBill(bill);
+                    iProductRepository.save(productItem);
+                });
+            });
+        };
+    }
 }
