@@ -24,7 +24,7 @@ public class BillRestController {
     @Autowired
     private ProductRestClient productRestClient;
 
-    @GetMapping("bills/{id}")
+    @GetMapping("/bills/{id}")
     public Bill getBillbyId(@PathVariable Long id){
         Bill bill = iBillRepository.findById(id).get();
         Customer customer = customerRestClient.findByCustomerId(bill.getCustomerId());
